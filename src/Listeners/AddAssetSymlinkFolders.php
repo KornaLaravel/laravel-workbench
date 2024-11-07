@@ -20,9 +20,7 @@ class AddAssetSymlinkFolders
     public function __construct(
         public ConfigContract $config,
         public Filesystem $files
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Handle the event.

@@ -16,6 +16,7 @@ class DropSqliteDbCommand extends Command
     protected $signature = 'workbench:drop-sqlite-db
                                 {--database=database.sqlite : Set the database name}
                                 {--all : Delete all SQLite databases}';
+
     /**
      * Execute the console command.
      *
