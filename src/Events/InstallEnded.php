@@ -18,7 +18,5 @@ readonly class InstallEnded
         public OutputInterface $output,
         public Factory $components,
         public int $exitCode
-    ) {
-        //
-    }
+    ) {}
 }

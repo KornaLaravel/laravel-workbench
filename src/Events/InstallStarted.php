@@ -17,7 +17,5 @@ readonly class InstallStarted
         public InputInterface $input,
         public OutputInterface $output,
         public Factory $components
-    ) {
-        //
-    }
+    ) {}
 }
