@@ -3,23 +3,21 @@
 namespace Orchestra\Workbench\Tests;
 
 use Orchestra\Workbench\StubRegistrar;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-
 use function Orchestra\Testbench\join_paths;
 
 class StubRegistrarTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider defaultStubsDataProvider
-     */
+    #[Test]
+    #[DataProvider('defaultStubsDataProvider')]
     public function it_can_resolve_default_configuration(string $given, ?string $expected)
     {
         $this->assertSame($expected, (new StubRegistrar)->file($given));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_swap_stub_file()
     {
         $registrar = new StubRegistrar;
