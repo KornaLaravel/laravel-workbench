@@ -18,6 +18,9 @@ use function Laravel\Prompts\select;
 use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\package_path;
 
+/**
+ * @codeCoverageIgnore
+ */
 #[AsCommand(name: 'workbench:install', description: 'Setup Workbench for package development')]
 class InstallCommand extends Command implements PromptsForMissingInput
 {
