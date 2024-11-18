@@ -19,6 +19,7 @@ class StubRegistrarTest extends TestCase
         $this->assertSame($expected, (new StubRegistrar)->file($given));
     }
 
+    /** @test */
     public function it_can_swap_stub_file()
     {
         $registrar = new StubRegistrar;
