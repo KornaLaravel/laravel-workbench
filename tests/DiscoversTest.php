@@ -34,5 +34,4 @@ class DiscoversTest extends TestCase
     {
         $this->artisan('workbench:inspire')->assertOk();
     }
-
 }
