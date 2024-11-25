@@ -55,9 +55,9 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Console/stubs/database/seeders/DatabaseSeeder.php"));
 
 transform([
-    'Artisan::command(\'inspire\', function () {
+    line('Artisan::command(\'inspire\', function () {
     $this->comment(Inspiring::quote());
-})->purpose(\'Display an inspiring quote\');'.PHP_EOL => '// Artisan::command(\'inspire\', function () {
+})->purpose(\'Display an inspiring quote\');') => line('// Artisan::command(\'inspire\', function () {
 //     $this->comment(Inspiring::quote());
 // })->purpose(\'Display an inspiring quote\');'.PHP_EOL,
 ], static fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Console/stubs/routes/console.php"));
