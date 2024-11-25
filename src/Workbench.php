@@ -15,11 +15,16 @@ use function Orchestra\Testbench\workbench_path;
 class Workbench
 {
     /**
-     * The Stub Registrar instance.
+     * Cached namespace by path.
      *
-     * @var \Orchestra\Workbench\StubRegistrar|null
+     * @var array<string, string|null>
      */
-    protected static $stubRegistrar = null;
+    protected static array $cachedNamespaces = [];
+
+    /**
+     * The Stub Registrar instance.
+     */
+    protected static ?StubRegistrar $stubRegistrar = null;
 
     /**
      * Get the path to the laravel folder.
@@ -63,6 +68,33 @@ class Workbench
         return ! \is_null($key)
             ? Arr::get(workbench(), $key)
             : workbench();
+    }
+
+    /**
+     * Detect namespace by path.
+     */
+    public static function detectNamespace(string $path): ?string
+    {
+        $path = trim($path, '/');
+
+        if (! isset(static::$cachedNamespaces[$path])) {
+            static::$cachedNamespaces[$path] = null;
+
+            /** @var array{'autoload-dev': array{'psr-4': array<string, array<int, string>|string>}} $composer */
+            $composer = json_decode((string) file_get_contents(package_path('composer.json')), true);
+
+            $collection = $composer['autoload-dev']['psr-4'] ?? [];
+
+            foreach ((array) $collection as $namespace => $paths) {
+                foreach ((array) $paths as $pathChoice) {
+                    if (trim($pathChoice, '/') === $path) {
+                        static::$cachedNamespaces[$path] = $namespace;
+                    }
+                }
+            }
+        }
+
+        return static::$cachedNamespaces[$path];
     }
 
     /**
