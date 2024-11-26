@@ -5,7 +5,6 @@ namespace Orchestra\Workbench\Listeners;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
 use Orchestra\Workbench\Workbench;
 
