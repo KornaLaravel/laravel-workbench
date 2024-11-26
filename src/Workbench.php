@@ -71,14 +71,15 @@ class Workbench
     }
 
     /**
-     * Detect namespace by path.
+     * Detect namespace by type.
      */
-    public static function detectNamespace(string $path): ?string
+    public static function detectNamespace(string $type): ?string
     {
-        $path = trim($path, '/');
+        $type = trim($type, '/');
+        $path = implode('/', ['workbench', $type]);
 
-        if (! isset(static::$cachedNamespaces[$path])) {
-            static::$cachedNamespaces[$path] = null;
+        if (! isset(static::$cachedNamespaces[$type])) {
+            static::$cachedNamespaces[$type] = null;
 
             /** @var array{'autoload-dev': array{'psr-4': array<string, array<int, string>|string>}} $composer */
             $composer = json_decode((string) file_get_contents(package_path('composer.json')), true);
@@ -88,13 +89,13 @@ class Workbench
             foreach ((array) $collection as $namespace => $paths) {
                 foreach ((array) $paths as $pathChoice) {
                     if (trim($pathChoice, '/') === $path) {
-                        static::$cachedNamespaces[$path] = $namespace;
+                        static::$cachedNamespaces[$type] = $namespace;
                     }
                 }
             }
         }
 
-        return static::$cachedNamespaces[$path];
+        return static::$cachedNamespaces[$type];
     }
 
     /**

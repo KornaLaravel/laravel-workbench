@@ -59,7 +59,7 @@ transform([
     $this->comment(Inspiring::quote());
 })->purpose(\'Display an inspiring quote\');') => line('// Artisan::command(\'inspire\', function () {
 //     $this->comment(Inspiring::quote());
-// })->purpose(\'Display an inspiring quote\');'.PHP_EOL,
+// })->purpose(\'Display an inspiring quote\');'),
 ], static fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Console/stubs/routes/console.php"));
 
 collect([
