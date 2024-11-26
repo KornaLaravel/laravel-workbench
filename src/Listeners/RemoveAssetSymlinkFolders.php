@@ -4,7 +4,6 @@ namespace Orchestra\Workbench\Listeners;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Events\ServeCommandEnded;
 use Orchestra\Workbench\Workbench;
 
