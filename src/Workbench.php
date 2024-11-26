@@ -12,15 +12,8 @@ use function Orchestra\Testbench\workbench_path;
 /**
  * @phpstan-import-type TWorkbenchConfig from \Orchestra\Testbench\Foundation\Config
  */
-class Workbench
+class Workbench extends \Orchestra\Testbench\Workbench\Workbench
 {
-    /**
-     * Cached namespace by path.
-     *
-     * @var array<string, string|null>
-     */
-    protected static array $cachedNamespaces = [];
-
     /**
      * The Stub Registrar instance.
      */
@@ -68,34 +61,6 @@ class Workbench
         return ! \is_null($key)
             ? Arr::get(workbench(), $key)
             : workbench();
-    }
-
-    /**
-     * Detect namespace by type.
-     */
-    public static function detectNamespace(string $type): ?string
-    {
-        $type = trim($type, '/');
-        $path = implode('/', ['workbench', $type]);
-
-        if (! isset(static::$cachedNamespaces[$type])) {
-            static::$cachedNamespaces[$type] = null;
-
-            /** @var array{'autoload-dev': array{'psr-4': array<string, array<int, string>|string>}} $composer */
-            $composer = json_decode((string) file_get_contents(package_path('composer.json')), true);
-
-            $collection = $composer['autoload-dev']['psr-4'] ?? [];
-
-            foreach ((array) $collection as $namespace => $paths) {
-                foreach ((array) $paths as $pathChoice) {
-                    if (trim($pathChoice, '/') === $path) {
-                        static::$cachedNamespaces[$type] = $namespace;
-                    }
-                }
-            }
-        }
-
-        return static::$cachedNamespaces[$type];
     }
 
     /**
