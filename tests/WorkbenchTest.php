@@ -33,13 +33,11 @@ class WorkbenchTest extends TestCase
     /** @test */
     public function it_can_resolve_laravel_path()
     {
-        $this->assertSame(
-            base_path(), Workbench::laravelPath()
-        );
+        $this->assertSame(base_path(), Workbench::applicationPath());
+        $this->assertSame(base_path(), Workbench::laravelPath());
 
-        $this->assertSame(
-            base_path('artisan'), Workbench::laravelPath('artisan')
-        );
+        $this->assertSame(base_path('artisan'), Workbench::applicationPath('artisan'));
+        $this->assertSame(base_path('artisan'), Workbench::laravelPath('artisan'));
     }
 
     /** @test */

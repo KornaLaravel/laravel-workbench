@@ -20,13 +20,21 @@ class Workbench extends \Orchestra\Testbench\Workbench\Workbench
     protected static ?StubRegistrar $stubRegistrar = null;
 
     /**
-     * Get the path to the laravel folder.
+     * Get the path to the application (Laravel) folder.
      */
-    public static function laravelPath(array|string $path = ''): string
+    public static function applicationPath(array|string $path = ''): string
     {
         return app()->basePath(
             join_paths(...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path))
         );
+    }
+
+    /**
+     * Get the path to the laravel folder.
+     */
+    public static function laravelPath(array|string $path = ''): string
+    {
+        return static::applicationPath($path);
     }
 
     /**
