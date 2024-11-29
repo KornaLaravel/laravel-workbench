@@ -2,9 +2,6 @@
 
 namespace Orchestra\Workbench\Listeners;
 
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
 use Orchestra\Testbench\Workbench\Actions\AddAssetSymlinkFolders as Action;
 
