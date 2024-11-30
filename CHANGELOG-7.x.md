@@ -11,7 +11,6 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * Add `workbench:sync-skeleton` as alias to `package:sync-skeleton` command.
 * Add `applicationPath()` to `Orchestra\Workbench\Workbench` class.
 
-
 ### Changes
 
 * Allows to customise the generated namespace instead of default to `Workbench\App` and `Workbench\Database`.
