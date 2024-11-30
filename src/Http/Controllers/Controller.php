@@ -7,7 +7,7 @@ use Orchestra\Workbench\Workbench;
 abstract class Controller extends \Illuminate\Routing\Controller
 {
     /**
-     * GEt redirect to path after logged in.
+     * Get redirect to path after logged in.
      */
     protected function redirectToAfterLoggedIn(): ?string
     {
