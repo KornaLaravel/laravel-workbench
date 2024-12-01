@@ -2,7 +2,9 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/workbench`.
 
-## 9.9.0 (Unreleased)
+## 9.9.0
+
+Released: 2024-12-01
 
 ### Added
 
