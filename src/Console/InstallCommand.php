@@ -2,6 +2,7 @@
 
 namespace Orchestra\Workbench\Console;
 
+use Composer\InstalledVersions;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Filesystem\Filesystem;
@@ -24,6 +25,8 @@ use function Orchestra\Testbench\package_path;
 #[AsCommand(name: 'workbench:install', description: 'Setup Workbench for package development')]
 class InstallCommand extends Command implements PromptsForMissingInput
 {
+    use Concerns\InteractsWithFiles;
+
     /**
      * The `testbench.yaml` default configuration file.
      */
@@ -55,6 +58,12 @@ class InstallCommand extends Command implements PromptsForMissingInput
 
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
+
+        $hasTestbenchDusk = InstalledVersions::isInstalled('orchestra/testbench-dusk');
+
+        if ($hasTestbenchDusk) {
+            $this->replaceInFile($filesystem, ["laravel: '@testbench'"], ["laravel: '@testbench-dusk'"], join_paths($workingPath, 'testbench.yaml'));
+        }
 
         $this->call('workbench:create-sqlite-db', ['--force' => true]);
 

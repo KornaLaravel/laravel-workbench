@@ -29,6 +29,8 @@ use function Orchestra\Testbench\package_path;
 #[AsCommand(name: 'workbench:devtool', description: 'Configure Workbench for package development')]
 class DevToolCommand extends Command implements PromptsForMissingInput
 {
+    use Concerns\InteractsWithFiles;
+
     /**
      * Execute the console command.
      *
