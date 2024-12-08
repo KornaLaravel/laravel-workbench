@@ -1,17 +1,24 @@
 <?php
 
-namespace Orchestra\Workbench;
+namespace Orchestra\Workbench\Actions;
 
 use RuntimeException;
 
-class Composer extends \Illuminate\Support\Composer
+class ModifyComposer
 {
     /**
-     * Modify composer content.
+     * Construct a new action.
+     */
+    public function __construct(
+        protected string $workingPath
+    ) {}
+
+    /**
+     * Handle the action.
      *
      * @param  callable(array):array  $callback
      */
-    public function modify(callable $callback): void
+    public function handle(callable $callback): void
     {
         $composerFile = "{$this->workingPath}/composer.json";
 
