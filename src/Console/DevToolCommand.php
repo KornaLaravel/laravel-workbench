@@ -8,9 +8,10 @@ use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Composer;
 use Orchestra\Testbench\Foundation\Console\Actions\EnsureDirectoryExists;
 use Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile;
+use Orchestra\Workbench\Actions\DumpComposerAutoloads;
+use Orchestra\Workbench\Actions\ModifyComposer;
 use Orchestra\Workbench\Events\InstallEnded;
 use Orchestra\Workbench\Events\InstallStarted;
 use Orchestra\Workbench\Workbench;
@@ -53,12 +54,10 @@ class DevToolCommand extends Command implements PromptsForMissingInput
             ]);
         }
 
-        return tap(Command::SUCCESS, function ($exitCode) use ($filesystem, $workingPath) {
+        return tap(Command::SUCCESS, function ($exitCode) use ($workingPath) {
             event(new InstallEnded($this->input, $this->output, $this->components, $exitCode));
 
-            (new Composer($filesystem))
-                ->setWorkingPath($workingPath)
-                ->dumpAutoloads();
+            (new DumpComposerAutoloads($workingPath))->handle();
         });
     }
 
@@ -111,9 +110,9 @@ class DevToolCommand extends Command implements PromptsForMissingInput
      */
     protected function prepareWorkbenchNamespaces(Filesystem $filesystem, string $workingPath): void
     {
-        $composer = (new Composer($filesystem))->setWorkingPath($workingPath);
+        $action = new ModifyComposer($workingPath);
 
-        $composer->modify(function (array $content) use ($filesystem) {
+        $action->handle(function (array $content) use ($filesystem) {
             return $this->appendScriptsToComposer(
                 $this->appendAutoloadDevToComposer($content, $filesystem), $filesystem
             );
