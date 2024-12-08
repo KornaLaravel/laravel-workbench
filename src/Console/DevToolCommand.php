@@ -111,11 +111,10 @@ class DevToolCommand extends Command implements PromptsForMissingInput
      */
     protected function prepareWorkbenchNamespaces(Filesystem $filesystem, string $workingPath): void
     {
-        $action = new ModifyComposer($workingPath);
-
-        $action->handle(fn (array $content) => $this->appendScriptsToComposer(
-            $this->appendAutoloadDevToComposer($content, $filesystem), $filesystem
-        ));
+        (new ModifyComposer($workingPath))
+            ->handle(fn (array $content) => $this->appendScriptsToComposer(
+                $this->appendAutoloadDevToComposer($content, $filesystem), $filesystem
+            ));
     }
 
     /**
