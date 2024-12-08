@@ -5,7 +5,6 @@ namespace Orchestra\Workbench\Tests\Actions;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Composer;
 use Mockery as m;
-use Orchestra\Testbench\TestCase;
 use Orchestra\Workbench\Actions\DumpComposerAutoloads;
 
 use function Orchestra\Testbench\join_paths;

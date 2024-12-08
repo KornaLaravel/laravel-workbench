@@ -2,7 +2,6 @@
 
 namespace Orchestra\Workbench\Tests\Actions;
 
-use Orchestra\Testbench\TestCase;
 use Orchestra\Workbench\Actions\ModifyComposer;
 use RuntimeException;
 
