@@ -50,4 +50,14 @@ class DevToolCommandTest extends CommandTestCase
         $this->assertCommandExecutedWithDevTool();
         $this->assertCommandExecutedWithoutInstall();
     }
+
+    #[Test]
+    public function it_can_be_installed_with_no_interaction_options()
+    {
+        $this->artisan('workbench:devtool', ['--no-install' => true, '--no-interaction' => true])
+            ->assertSuccessful();
+
+        $this->assertCommandExecutedWithDevTool();
+        $this->assertCommandExecutedWithoutInstall();
+    }
 }
