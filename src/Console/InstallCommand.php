@@ -124,7 +124,7 @@ class InstallCommand extends Command
                 $choices->prepend('Skip exporting .env')->all()
             ) : null;
 
-        if (in_array($targetEnvironmentFile, [null, 'Skip exporting .env'])) {
+        if (\in_array($targetEnvironmentFile, [null, 'Skip exporting .env'])) {
             return;
         }
 
