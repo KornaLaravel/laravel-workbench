@@ -17,7 +17,10 @@ class DevToolCommandTest extends CommandTestCase
                 '.env',
                 '.env.example',
                 '.env.dist',
-            ])->assertSuccessful();
+            ])
+            ->expectsConfirmation('Generate `workbench/bootstrap/app.php` file?', answer: 'no')
+            ->expectsConfirmation('Generate `workbench/bootstrap/providers.php` file?', answer: 'no')
+            ->assertSuccessful();
 
         $this->assertCommandExecutedWithDevTool();
         $this->assertCommandExecutedWithInstall();
@@ -34,7 +37,10 @@ class DevToolCommandTest extends CommandTestCase
                 '.env',
                 '.env.example',
                 '.env.dist',
-            ])->assertSuccessful();
+            ])
+            ->expectsConfirmation('Generate `workbench/bootstrap/app.php` file?', answer: 'no')
+            ->expectsConfirmation('Generate `workbench/bootstrap/providers.php` file?', answer: 'no')
+            ->assertSuccessful();
 
         $this->assertCommandExecutedWithDevTool();
         $this->assertCommandExecutedWithBasicInstall();

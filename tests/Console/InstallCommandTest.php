@@ -21,7 +21,10 @@ class InstallCommandTest extends CommandTestCase
                 '.env',
                 '.env.example',
                 '.env.dist',
-            ])->assertSuccessful();
+            ])
+            ->expectsConfirmation('Generate `workbench/bootstrap/app.php` file?', answer: 'no')
+            ->expectsConfirmation('Generate `workbench/bootstrap/providers.php` file?', answer: 'no')
+            ->assertSuccessful();
 
         $this->assertCommandExecutedWithInstall();
         $this->assertCommandExecutedWithDevTool();
@@ -38,7 +41,10 @@ class InstallCommandTest extends CommandTestCase
                 '.env',
                 '.env.example',
                 '.env.dist',
-            ])->assertSuccessful();
+            ])
+            ->expectsConfirmation('Generate `workbench/bootstrap/app.php` file?', answer: 'no')
+            ->expectsConfirmation('Generate `workbench/bootstrap/providers.php` file?', answer: 'no')
+            ->assertSuccessful();
 
         $this->assertCommandExecutedWithInstall();
         $this->assertCommandExecutedWithoutDevTool();
@@ -55,7 +61,10 @@ class InstallCommandTest extends CommandTestCase
                 '.env',
                 '.env.example',
                 '.env.dist',
-            ])->assertSuccessful();
+            ])
+            ->expectsConfirmation('Generate `workbench/bootstrap/app.php` file?', answer: 'no')
+            ->expectsConfirmation('Generate `workbench/bootstrap/providers.php` file?', answer: 'no')
+            ->assertSuccessful();
 
         $this->assertCommandExecutedWithBasicInstall();
         $this->assertCommandExecutedWithoutDevTool();
@@ -77,6 +86,8 @@ class InstallCommandTest extends CommandTestCase
 
         $this->artisan('workbench:install', ['--basic' => true, '--no-devtool' => true])
             ->expectsOutputToContain('File [.env] already exists')
+            ->expectsConfirmation('Generate `workbench/bootstrap/app.php` file?', answer: 'no')
+            ->expectsConfirmation('Generate `workbench/bootstrap/providers.php` file?', answer: 'no')
             ->assertSuccessful();
 
         $environmentFiles->each(function ($env) use ($workingPath) {
