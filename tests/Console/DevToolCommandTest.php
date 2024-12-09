@@ -44,12 +44,20 @@ class DevToolCommandTest extends CommandTestCase
         $this->assertFromEnvironmentFileDataProviders($answer, $createEnvironmentFile);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_run_devtool_command_without_installation()
     {
         $this->artisan('workbench:devtool', ['--no-install' => true])
+            ->assertSuccessful();
+
+        $this->assertCommandExecutedWithDevTool();
+        $this->assertCommandExecutedWithoutInstall();
+    }
+
+    /** @test */
+    public function it_can_be_installed_with_no_interaction_options()
+    {
+        $this->artisan('workbench:devtool', ['--no-install' => true, '--no-interaction' => true])
             ->assertSuccessful();
 
         $this->assertCommandExecutedWithDevTool();

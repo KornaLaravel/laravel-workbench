@@ -118,12 +118,13 @@ class InstallCommand extends Command
         }
 
         /** @var string|null $targetEnvironmentFile */
-        $targetEnvironmentFile = $this->components->choice(
-            "Export '.env' file as?",
-            $choices->prepend('Skip exporting .env')->all()
-        );
+        $targetEnvironmentFile = $this->input->isInteractive()
+            ? $this->components->choice(
+                "Export '.env' file as?",
+                $choices->prepend('Skip exporting .env')->all()
+            ) : null;
 
-        if (\is_null($targetEnvironmentFile) || $targetEnvironmentFile === 'Skip exporting .env') {
+        if (in_array($targetEnvironmentFile, [null, 'Skip exporting .env'])) {
             return;
         }
 

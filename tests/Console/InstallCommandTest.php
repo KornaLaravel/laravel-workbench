@@ -69,9 +69,7 @@ class InstallCommandTest extends CommandTestCase
         $this->assertFromEnvironmentFileDataProviders($answer, $createEnvironmentFile);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_ignore_generating_environment_file_if_it_already_exists()
     {
         $filesystem = new Filesystem;
@@ -91,6 +89,16 @@ class InstallCommandTest extends CommandTestCase
         $environmentFiles->each(function ($env) use ($workingPath) {
             $this->assertFileNotEquals(join_paths($workingPath, 'workbench', $env), default_skeleton_path('.env.example'));
         });
+
+        $this->assertCommandExecutedWithBasicInstall();
+        $this->assertCommandExecutedWithoutDevTool();
+    }
+
+    /** @test */
+    public function it_can_be_installed_with_no_interaction_options()
+    {
+        $this->artisan('workbench:install', ['--basic' => true, '--no-devtool' => true, '--no-interaction' => true])
+            ->assertSuccessful();
 
         $this->assertCommandExecutedWithBasicInstall();
         $this->assertCommandExecutedWithoutDevTool();
