@@ -24,9 +24,6 @@ use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\package_path;
 
-/**
- * @codeCoverageIgnore
- */
 #[AsCommand(name: 'workbench:devtool', description: 'Configure Workbench for package development')]
 class DevToolCommand extends Command implements PromptsForMissingInput
 {
