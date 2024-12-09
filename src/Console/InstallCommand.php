@@ -16,9 +16,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\package_path;
 
-/**
- * @codeCoverageIgnore
- */
 #[AsCommand(name: 'workbench:install', description: 'Setup Workbench for package development')]
 class InstallCommand extends Command
 {
@@ -70,9 +67,7 @@ class InstallCommand extends Command
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
 
-        if ($this->hasTestbenchDusk) {
-            $this->replaceInFile($filesystem, ["laravel: '@testbench'"], ["laravel: '@testbench-dusk'"], join_paths($workingPath, 'testbench.yaml'));
-        }
+        $this->replaceDefaultLaravelSkeletonInTestbenchConfigurationFile($filesystem, $workingPath);
 
         $this->call('workbench:create-sqlite-db', ['--force' => true]);
 
@@ -106,17 +101,15 @@ class InstallCommand extends Command
 
         $from = $this->laravel->basePath('.env.example');
 
-        if (! $filesystem->exists($from)) {
+        if (! $filesystem->isFile($this->laravel->basePath('.env.example'))) {
             return;
         }
 
         $choices = Collection::make($this->environmentFiles())
-            ->reject(static fn ($file) => $filesystem->exists(join_paths($workbenchWorkingPath, $file)))
-            ->values()
-            ->prepend('Skip exporting .env')
-            ->all();
+            ->reject(static fn ($file) => $filesystem->isFile(join_paths($workbenchWorkingPath, $file)))
+            ->values();
 
-        if (! $this->option('force') && empty($choices)) {
+        if (! $this->option('force') && $choices->isEmpty()) {
             $this->components->twoColumnDetail(
                 'File [.env] already exists', '<fg=yellow;options=bold>SKIPPED</>'
             );
@@ -124,24 +117,19 @@ class InstallCommand extends Command
             return;
         }
 
-        $choice = $this->components->choice("Export '.env' file as?", $choices);
+        /** @var string|null $targetEnvironmentFile */
+        $targetEnvironmentFile = $this->components->choice(
+            "Export '.env' file as?",
+            $choices->prepend('Skip exporting .env')->all()
+        );
 
-        if ($choice === 'Skip exporting .env') {
+        if (\is_null($targetEnvironmentFile) || $targetEnvironmentFile === 'Skip exporting .env') {
             return;
         }
 
-        if ($this->hasTestbenchDusk === true) {
-            if ($this->components->confirm('Create separate environment file for Testbench Dusk?', false)) {
-                (new GeneratesFile(
-                    filesystem: $filesystem,
-                    components: $this->components,
-                    force: (bool) $this->option('force'),
-                ))->handle(
-                    $from,
-                    join_paths($workbenchWorkingPath, str_replace('.env', '.env.dusk', $choice))
-                );
-            }
-        }
+        $filesystem->ensureDirectoryExists($workbenchWorkingPath);
+
+        $this->generateSeparateEnvironmentFileForTestbenchDusk($filesystem, $workbenchWorkingPath, $targetEnvironmentFile);
 
         (new GeneratesFile(
             filesystem: $filesystem,
@@ -149,7 +137,7 @@ class InstallCommand extends Command
             force: (bool) $this->option('force'),
         ))->handle(
             $from,
-            join_paths($workbenchWorkingPath, $choice)
+            join_paths($workbenchWorkingPath, $targetEnvironmentFile)
         );
 
         (new GeneratesFile(
@@ -159,6 +147,43 @@ class InstallCommand extends Command
             (string) Workbench::stubFile('gitignore'),
             join_paths($workbenchWorkingPath, '.gitignore')
         );
+    }
+
+    /**
+     * Replace the default `laravel` skeleton for Testbench Dusk.
+     *
+     * @codeCoverageIgnore
+     */
+    protected function replaceDefaultLaravelSkeletonInTestbenchConfigurationFile(Filesystem $filesystem, string $workingPath): void
+    {
+        if ($this->hasTestbenchDusk === false) {
+            return;
+        }
+
+        $this->replaceInFile($filesystem, ["laravel: '@testbench'"], ["laravel: '@testbench-dusk'"], join_paths($workingPath, 'testbench.yaml'));
+    }
+
+    /**
+     * Generate separate `.env.dusk` equivalent for Testbench Dusk.
+     *
+     * @codeCoverageIgnore
+     */
+    protected function generateSeparateEnvironmentFileForTestbenchDusk(Filesystem $filesystem, string $workbenchWorkingPath, string $targetEnvironmentFile): void
+    {
+        if ($this->hasTestbenchDusk === false) {
+            return;
+        }
+
+        if ($this->components->confirm('Create separate environment file for Testbench Dusk?', false)) {
+            (new GeneratesFile(
+                filesystem: $filesystem,
+                components: $this->components,
+                force: (bool) $this->option('force'),
+            ))->handle(
+                $this->laravel->basePath('.env.example'),
+                join_paths($workbenchWorkingPath, str_replace('.env', '.env.dusk', $targetEnvironmentFile))
+            );
+        }
     }
 
     /**
