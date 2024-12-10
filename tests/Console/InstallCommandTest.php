@@ -96,4 +96,21 @@ class InstallCommandTest extends CommandTestCase
         $this->assertCommandExecutedWithBasicInstall();
         $this->assertCommandExecutedWithoutDevTool();
     }
+
+    #[Test]
+    public function it_can_be_installed_with_prompt_for_missing_arguments()
+    {
+        $this->artisan('workbench:install')
+            ->expectsConfirmation('Run Workbench DevTool installation?', false)
+            ->expectsChoice("Export '.env' file as?", 'Skip exporting .env', [
+                'Skip exporting .env',
+                '.env',
+                '.env.example',
+                '.env.dist',
+            ])
+            ->assertSuccessful();
+
+        $this->assertCommandExecutedWithInstall();
+        $this->assertCommandExecutedWithoutDevTool();
+    }
 }
