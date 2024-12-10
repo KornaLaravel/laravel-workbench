@@ -27,8 +27,6 @@ use function Orchestra\Testbench\package_path;
 #[AsCommand(name: 'workbench:devtool', description: 'Configure Workbench for package development')]
 class DevToolCommand extends Command implements PromptsForMissingInput
 {
-    use Concerns\InteractsWithFiles;
-
     /**
      * Execute the console command.
      *
@@ -195,7 +193,7 @@ class DevToolCommand extends Command implements PromptsForMissingInput
 
             if (InstalledVersions::isInstalled('laravel/pint')) {
                 $lintScripts[] = '@php vendor/bin/pint --ansi';
-            } elseif ($filesystem->exists(Workbench::packagePath('pint.json'))) {
+            } elseif ($filesystem->isFile(Workbench::packagePath('pint.json'))) {
                 $lintScripts[] = 'pint';
             }
 
@@ -209,8 +207,8 @@ class DevToolCommand extends Command implements PromptsForMissingInput
         }
 
         if (
-            $filesystem->exists(Workbench::packagePath('phpunit.xml'))
-            || $filesystem->exists(Workbench::packagePath('phpunit.xml.dist'))
+            $filesystem->isFile(Workbench::packagePath('phpunit.xml'))
+            || $filesystem->isFile(Workbench::packagePath('phpunit.xml.dist'))
         ) {
             if (! \array_key_exists('test', $content['scripts'])) {
                 $content['scripts']['test'] = [
