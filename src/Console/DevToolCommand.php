@@ -133,7 +133,7 @@ class DevToolCommand extends Command
             join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php')
         );
 
-        if ($filesystem->exists(join_paths($workingPath, 'database', 'factories', 'UserFactory.php'))) {
+        if ($filesystem->isFile(join_paths($workingPath, 'database', 'factories', 'UserFactory.php'))) {
             $this->replaceInFile($filesystem, [
                 'use Orchestra\Testbench\Factories\UserFactory;',
             ], [
@@ -190,7 +190,7 @@ class DevToolCommand extends Command
 
             if (InstalledVersions::isInstalled('laravel/pint')) {
                 $lintScripts[] = '@php vendor/bin/pint --ansi';
-            } elseif ($filesystem->exists(Workbench::packagePath('pint.json'))) {
+            } elseif ($filesystem->isFile(Workbench::packagePath('pint.json'))) {
                 $lintScripts[] = 'pint';
             }
 
@@ -204,8 +204,8 @@ class DevToolCommand extends Command
         }
 
         if (
-            $filesystem->exists(Workbench::packagePath('phpunit.xml'))
-            || $filesystem->exists(Workbench::packagePath('phpunit.xml.dist'))
+            $filesystem->isFile(Workbench::packagePath('phpunit.xml'))
+            || $filesystem->isFile(Workbench::packagePath('phpunit.xml.dist'))
         ) {
             if (! \array_key_exists('test', $content['scripts'])) {
                 $content['scripts']['test'] = [
