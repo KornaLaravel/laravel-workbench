@@ -119,6 +119,8 @@ class InstallCommandTest extends CommandTestCase
                 '.env.example',
                 '.env.dist',
             ])
+            ->expectsConfirmation('Generate `workbench/bootstrap/app.php` file?', answer: 'no')
+            ->expectsConfirmation('Generate `workbench/bootstrap/providers.php` file?', answer: 'no')
             ->assertSuccessful();
 
         $this->assertCommandExecutedWithInstall();

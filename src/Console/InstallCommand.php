@@ -83,6 +83,10 @@ class InstallCommand extends Command implements PromptsForMissingInput
      */
     protected function prepareWorkbenchDirectories(Filesystem $filesystem, string $workingPath): void
     {
+        if (! $this->input->isInteractive()) {
+            return;
+        }
+
         $workbenchWorkingPath = join_paths($workingPath, 'workbench');
 
         foreach (['app' => true, 'providers' => false] as $bootstrap => $default) {
