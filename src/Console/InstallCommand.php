@@ -22,8 +22,6 @@ use function Orchestra\Testbench\package_path;
 #[AsCommand(name: 'workbench:install', description: 'Setup Workbench for package development')]
 class InstallCommand extends Command implements PromptsForMissingInput
 {
-    use Concerns\InteractsWithFiles;
-
     /**
      * The `testbench.yaml` default configuration file.
      */
@@ -165,7 +163,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
             return;
         }
 
-        $this->replaceInFile($filesystem, ["laravel: '@testbench'"], ["laravel: '@testbench-dusk'"], join_paths($workingPath, 'testbench.yaml'));
+        $filesystem->replaceInFile(["laravel: '@testbench'"], ["laravel: '@testbench-dusk'"], join_paths($workingPath, 'testbench.yaml'));
     }
 
     /**

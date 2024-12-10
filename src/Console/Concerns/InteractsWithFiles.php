@@ -12,6 +12,6 @@ trait InteractsWithFiles
     protected function replaceInFile(Filesystem $filesystem, array|string $search, array|string $replace, string $path): void
     {
         /** @phpstan-ignore argument.type */
-        $filesystem->put($path, str_replace($search, $replace, $filesystem->get($path)));
+        $filesystem->replaceInFile($search, $replace, $path);
     }
 }
