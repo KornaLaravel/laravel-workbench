@@ -2,7 +2,9 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/workbench`.
 
-## Unreleased
+## 7.14.0
+
+Released: 2024-12-10
 
 ### Added
 
