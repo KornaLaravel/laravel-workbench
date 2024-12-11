@@ -235,14 +235,22 @@ class DevToolCommand extends Command
             $content['autoload-dev']['psr-4'] = [];
         }
 
+        $namespacePrefix = '';
+
+        if (confirm('Prefix with `Workbench` namespace?', default: true)) {
+            $namespacePrefix = 'Workbench\\';
+        }
+
         $namespaces = [
-            'Workbench\\App\\' => 'workbench/app/',
-            'Workbench\\Database\\Factories\\' => 'workbench/database/factories/',
-            'Workbench\\Database\\Seeders\\' => 'workbench/database/seeders/',
+            'workbench/app/' => $namespacePrefix.'App\\',
+            'workbench/database/factories/' => $namespacePrefix.'Database\\Factories\\',
+            'workbench/database/seeders/' => $namespacePrefix.'Database\\Seeders\\',
         ];
 
-        foreach ($namespaces as $namespace => $path) {
-            if (! \array_key_exists($namespace, $content['autoload-dev']['psr-4'])) {
+        $autoloads = array_flip($content['autoload-dev']['psr-4']);
+
+        foreach ($namespaces as $path => $namespace) {
+            if (! \array_key_exists($path, $autoloads)) {
                 $content['autoload-dev']['psr-4'][$namespace] = $path;
 
                 $this->components->task(\sprintf(
@@ -250,7 +258,7 @@ class DevToolCommand extends Command
                 ));
             } else {
                 $this->components->twoColumnDetail(
-                    \sprintf('Composer already contain [%s] namespace', $namespace),
+                    \sprintf('Composer already contain [%s] path assigned to [%s] namespace', $path, $autoloads[$path]),
                     '<fg=yellow;options=bold>SKIPPED</>'
                 );
             }
