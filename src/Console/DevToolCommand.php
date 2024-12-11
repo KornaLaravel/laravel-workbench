@@ -239,7 +239,7 @@ class DevToolCommand extends Command implements PromptsForMissingInput
 
         $namespacePrefix = '';
 
-        if (confirm('Should prefix with `Workbench` namespace?', default: true, hint: 'Workbench\\')) {
+        if (confirm('Prefix with `Workbench` namespace?', default: true)) {
             $namespacePrefix = 'Workbench\\';
         }
 
