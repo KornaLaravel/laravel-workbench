@@ -244,13 +244,15 @@ class DevToolCommand extends Command implements PromptsForMissingInput
         }
 
         $namespaces = [
-            $namespacePrefix.'App\\' => 'workbench/app/',
-            $namespacePrefix.'Database\\Factories\\' => 'workbench/database/factories/',
-            $namespacePrefix.'Database\\Seeders\\' => 'workbench/database/seeders/',
+            'workbench/app/' => $namespacePrefix.'App\\',
+            'workbench/database/factories/' => $namespacePrefix.'Database\\Factories\\',
+            'workbench/database/seeders/' => $namespacePrefix.'Database\\Seeders\\',
         ];
 
-        foreach ($namespaces as $namespace => $path) {
-            if (! \array_key_exists($namespace, $content['autoload-dev']['psr-4'])) {
+        $autoloads = array_flip($content['autoload-dev']['psr-4']);
+
+        foreach ($namespaces as $path => $namespace) {
+            if (! \array_key_exists($path, $autoloads)) {
                 $content['autoload-dev']['psr-4'][$namespace] = $path;
 
                 $this->components->task(\sprintf(
@@ -258,7 +260,7 @@ class DevToolCommand extends Command implements PromptsForMissingInput
                 ));
             } else {
                 $this->components->twoColumnDetail(
-                    \sprintf('Composer already contain [%s] namespace', $namespace),
+                    \sprintf('Composer already contain [%s] path to use [%s] namespace', $path, $autoloads[$path]),
                     '<fg=yellow;options=bold>SKIPPED</>'
                 );
             }
