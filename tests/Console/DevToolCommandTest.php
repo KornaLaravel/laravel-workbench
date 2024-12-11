@@ -36,8 +36,7 @@ class DevToolCommandTest extends CommandTestCase
                 '.env',
                 '.env.example',
                 '.env.dist',
-            ])
-            ->assertSuccessful();
+            ])->assertSuccessful();
 
         $this->assertCommandExecutedWithDevTool();
         $this->assertCommandExecutedWithBasicInstall();
