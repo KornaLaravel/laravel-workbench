@@ -260,7 +260,7 @@ class DevToolCommand extends Command implements PromptsForMissingInput
                 ));
             } else {
                 $this->components->twoColumnDetail(
-                    \sprintf('Composer already contain [%s] path to use [%s] namespace', $path, $autoloads[$path]),
+                    \sprintf('Composer already contain [%s] path assigned to [%s] namespace', $path, $autoloads[$path]),
                     '<fg=yellow;options=bold>SKIPPED</>'
                 );
             }
