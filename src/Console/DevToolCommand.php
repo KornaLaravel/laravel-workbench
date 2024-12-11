@@ -237,7 +237,7 @@ class DevToolCommand extends Command
 
         $namespacePrefix = '';
 
-        if (confirm('Prefix with `Workbench` namespace?', default: true)) {
+        if ($this->components->confirm('Prefix with `Workbench` namespace?', default: true)) {
             $namespacePrefix = 'Workbench\\';
         }
 
@@ -258,7 +258,7 @@ class DevToolCommand extends Command
                 ));
             } else {
                 $this->components->twoColumnDetail(
-                    \sprintf('Composer already contain [%s] path assigned to [%s] namespace', $path, $autoloads[$path]),
+                    \sprintf('Composer already contains [%s] path assigned to [%s] namespace', $path, $autoloads[$path]),
                     '<fg=yellow;options=bold>SKIPPED</>'
                 );
             }
