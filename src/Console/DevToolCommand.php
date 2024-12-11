@@ -237,10 +237,16 @@ class DevToolCommand extends Command implements PromptsForMissingInput
             $content['autoload-dev']['psr-4'] = [];
         }
 
+        $namespacePrefix = '';
+
+        if (confirm('Should prefix with `Workbench` namespace?', default: true, hint: 'Workbench\\')) {
+            $namespacePrefix = 'Workbench\\';
+        }
+
         $namespaces = [
-            'Workbench\\App\\' => 'workbench/app/',
-            'Workbench\\Database\\Factories\\' => 'workbench/database/factories/',
-            'Workbench\\Database\\Seeders\\' => 'workbench/database/seeders/',
+            $namespacePrefix.'App\\' => 'workbench/app/',
+            $namespacePrefix.'Database\\Factories\\' => 'workbench/database/factories/',
+            $namespacePrefix.'Database\\Seeders\\' => 'workbench/database/seeders/',
         ];
 
         foreach ($namespaces as $namespace => $path) {
