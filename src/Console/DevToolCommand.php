@@ -254,11 +254,11 @@ class DevToolCommand extends Command
                 $content['autoload-dev']['psr-4'][$namespace] = $path;
 
                 $this->components->task(\sprintf(
-                    'Added [%s] for [%s] to Composer', $namespace, '/'.rtrim($path, '/')
+                    'Added [%s] for [%s] to Composer', $namespace, './'.rtrim($path, '/')
                 ));
             } else {
                 $this->components->twoColumnDetail(
-                    \sprintf('Composer already contains [%s] path assigned to [%s] namespace', '/'.rtrim($path, '/'), $autoloads[$path]),
+                    \sprintf('Composer already contains [%s] path assigned to [%s] namespace', './'.rtrim($path, '/'), $autoloads[$path]),
                     '<fg=yellow;options=bold>SKIPPED</>'
                 );
             }
