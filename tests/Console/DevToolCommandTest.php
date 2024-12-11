@@ -70,6 +70,7 @@ class DevToolCommandTest extends CommandTestCase
     {
         $this->artisan('workbench:devtool')
             ->expectsConfirmation('Run Workbench installation?', false)
+            ->expectsConfirmation('Prefix with `Workbench` namespace?', true)
             ->assertSuccessful();
 
         $this->assertCommandExecutedWithDevTool();
