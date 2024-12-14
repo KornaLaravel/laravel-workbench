@@ -91,15 +91,22 @@ class InstallCommand extends Command
             force: (bool) $this->option('force'),
         ))->handle($from, $to);
 
+        $serviceProvider = \sprintf('%sProviders\WorkbenchServiceProvider', Workbench::detectNamespace('app', force: true) ?? 'Workbench\App\\');
+        $databaseSeeder = \sprintf('%sDatabaseSeeder', Workbench::detectNamespace('database/seeders', force: true) ?? 'Workbench\Database\Seeders\\');
+
         $this->replaceInFile(
             $filesystem,
             [
+                '{{ WorkbenchServiceProvider }}',
                 'Workbench\App\Providers\WorkbenchServiceProvider',
+                '{{ WorkbenchDatabaseSeeder }}',
                 'Workbench\Database\Seeders\DatabaseSeeder',
             ],
             [
-                \sprintf('%sProviders\WorkbenchServiceProvider', Workbench::detectNamespace('app', force: true) ?? 'Workbench\App\\'),
-                \sprintf('%sDatabaseSeeder', Workbench::detectNamespace('database/seeders', force: true) ?? 'Workbench\Database\Seeders\\'),
+                $serviceProvider,
+                $serviceProvider,
+                $databaseSeeder,
+                $databaseSeeder,
             ],
             $to
         );
