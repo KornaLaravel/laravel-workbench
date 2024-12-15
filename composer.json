@@ -43,7 +43,8 @@
         "laravel/pint": "^1.17",
         "mockery/mockery": "^1.6.10",
         "phpstan/phpstan": "^2.0",
-        "phpunit/phpunit": "^10.5.35 || ^11.3.6"
+        "phpunit/phpunit": "^10.5.35 || ^11.3.6",
+        "spatie/laravel-ray": "^1.39"
     },
     "suggest": {
         "ext-pcntl": "Required to use all features of the console signal trapping."

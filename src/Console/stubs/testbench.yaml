@@ -1,10 +1,13 @@
 laravel: '@testbench'
 
 providers:
-  # - Workbench\App\Providers\WorkbenchServiceProvider
+  # - {{ WorkbenchServiceProvider }}
 
 migrations:
   - workbench/database/migrations
+
+seeders:
+  - {{ WorkbenchDatabaseSeeder }}
 
 workbench:
   start: '/'
@@ -22,7 +25,6 @@ workbench:
     - db-wipe
     - migrate-fresh:
         --seed: true
-        --seeder: Workbench\Database\Seeders\DatabaseSeeder
   assets:
     - laravel-assets
   sync: []

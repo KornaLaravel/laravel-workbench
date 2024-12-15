@@ -119,6 +119,25 @@ class InstallCommand extends Command implements PromptsForMissingInput
             components: $this->components,
             force: (bool) $this->option('force'),
         ))->handle($from, $to);
+
+        $serviceProvider = \sprintf('%sProviders\WorkbenchServiceProvider', Workbench::detectNamespace('app', force: true) ?? 'Workbench\App\\');
+        $databaseSeeder = \sprintf('%sDatabaseSeeder', Workbench::detectNamespace('database/seeders', force: true) ?? 'Workbench\Database\Seeders\\');
+
+        $filesystem->replaceInFile(
+            [
+                '{{ WorkbenchServiceProvider }}',
+                'Workbench\App\Providers\WorkbenchServiceProvider',
+                '{{ WorkbenchDatabaseSeeder }}',
+                'Workbench\Database\Seeders\DatabaseSeeder',
+            ],
+            [
+                $serviceProvider,
+                $serviceProvider,
+                $databaseSeeder,
+                $databaseSeeder,
+            ],
+            $to
+        );
     }
 
     /**
