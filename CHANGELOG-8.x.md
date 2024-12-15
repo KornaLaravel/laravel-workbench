@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/workbench`.
 
+## 8.15.0
+
+Released: 2024-12-16
+
+### Changes
+
+* Allow to configure Workbench default namespace prefix via `workbench:devtool` command.
+
 ## 8.14.0
 
 Released: 2024-12-10
