@@ -95,8 +95,7 @@ class InstallCommand extends Command implements PromptsForMissingInput
         $serviceProvider = \sprintf('%sProviders\WorkbenchServiceProvider', Workbench::detectNamespace('app', force: true) ?? 'Workbench\App\\');
         $databaseSeeder = \sprintf('%sDatabaseSeeder', Workbench::detectNamespace('database/seeders', force: true) ?? 'Workbench\Database\Seeders\\');
 
-        $this->replaceInFile(
-            $filesystem,
+        $filesystem->replaceInFile(
             [
                 '{{ WorkbenchServiceProvider }}',
                 'Workbench\App\Providers\WorkbenchServiceProvider',
