@@ -120,19 +120,38 @@ class InstallCommand extends Command implements PromptsForMissingInput
             force: (bool) $this->option('force'),
         ))->handle($from, $to);
 
-        $serviceProvider = \sprintf('%sProviders\WorkbenchServiceProvider', Workbench::detectNamespace('app', force: true) ?? 'Workbench\App\\');
-        $databaseSeeder = \sprintf('%sDatabaseSeeder', Workbench::detectNamespace('database/seeders', force: true) ?? 'Workbench\Database\Seeders\\');
+        $workbenchAppNamespacePrefix = Workbench::detectNamespace('app', force: true) ?? 'Workbench\App\\';
+        $workbenchSeederNamespacePrefix = Workbench::detectNamespace('database/seeders', force: true) ?? 'Workbench\Database\Seeders\\';
+
+        $serviceProvider = \sprintf('%sProviders\WorkbenchServiceProvider', $workbenchAppNamespacePrefix);
+        $databaseSeeder = \sprintf('%sDatabaseSeeder', $workbenchSeederNamespacePrefix);
 
         $filesystem->replaceInFile(
             [
+                '{{WorkbenchAppNamespace}}',
+                '{{ WorkbenchAppNamespace }}',
+                '{{WorkbenchSeederNamespace}}',
+                '{{ WorkbenchSeederNamespace }}',
+
+                '{{WorkbenchServiceProvider}}',
                 '{{ WorkbenchServiceProvider }}',
                 'Workbench\App\Providers\WorkbenchServiceProvider',
+
+                '{{WorkbenchDatabaseSeeder}}',
                 '{{ WorkbenchDatabaseSeeder }}',
                 'Workbench\Database\Seeders\DatabaseSeeder',
             ],
             [
+                $workbenchAppNamespacePrefix,
+                $workbenchAppNamespacePrefix,
+                $workbenchSeederNamespacePrefix,
+                $workbenchSeederNamespacePrefix,
+
                 $serviceProvider,
                 $serviceProvider,
+                $serviceProvider,
+
+                $databaseSeeder,
                 $databaseSeeder,
                 $databaseSeeder,
             ],
