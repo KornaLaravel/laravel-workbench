@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/workbench`.
 
+
+## 8.15.1
+
+Released: 2024-12-18
+
+### Fixes
+
+* Fix `workbench:install` generating migrate-fresh command with incorrect options.
+
 ## 8.15.0
 
 Released: 2024-12-16
