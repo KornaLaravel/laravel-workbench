@@ -140,6 +140,8 @@ class InstallCommand extends Command implements PromptsForMissingInput
                 '{{WorkbenchDatabaseSeeder}}',
                 '{{ WorkbenchDatabaseSeeder }}',
                 'Workbench\Database\Seeders\DatabaseSeeder',
+
+                '    - migrate-fresh',
             ],
             [
                 $workbenchAppNamespacePrefix,
@@ -154,6 +156,10 @@ class InstallCommand extends Command implements PromptsForMissingInput
                 $databaseSeeder,
                 $databaseSeeder,
                 $databaseSeeder,
+
+                $databaseSeeder === 'Database\Seeders\DatabaseSeeder'
+                    ? '    - migrate-fresh'
+                    : '    - migrate-fresh:'.PHP_EOL.'        --seed: true',
             ],
             $to
         );
