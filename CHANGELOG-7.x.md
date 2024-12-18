@@ -2,13 +2,13 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/workbench`.
 
-## 7.15.0
+## 7.15.1
 
-Released: 2024-12-16
+Released: 2024-12-18
 
-### Changes
+### Fixes
 
-* Allow to configure Workbench default namespace prefix via `workbench:devtool` command.
+* Fix `workbench:install` generating migrate-fresh command with incorrect options.
 
 ## 7.14.0
 
