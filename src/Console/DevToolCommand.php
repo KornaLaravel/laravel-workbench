@@ -43,8 +43,8 @@ class DevToolCommand extends Command implements PromptsForMissingInput
 
         event(new InstallStarted($this->input, $this->output, $this->components));
 
-        $this->prepareWorkbenchDirectories($filesystem, $workingPath);
         $this->prepareWorkbenchNamespaces($filesystem, $workingPath);
+        $this->prepareWorkbenchDirectories($filesystem, $workingPath);
 
         if ($this->option('install') === true) {
             $this->call('workbench:install', [
@@ -115,6 +115,8 @@ class DevToolCommand extends Command implements PromptsForMissingInput
             ->handle(fn (array $content) => $this->appendScriptsToComposer(
                 $this->appendAutoloadDevToComposer($content, $filesystem), $filesystem
             ));
+
+        Workbench::flushCachedClassAndNamespaces();
     }
 
     /**
@@ -141,11 +143,23 @@ class DevToolCommand extends Command implements PromptsForMissingInput
             join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php')
         );
 
+        $workbenchSeederNamespacePrefix = rtrim(Workbench::detectNamespace('database/seeders') ?? 'Workbench\Database\Seeders\\', '\\');
+
+        $filesystem->replaceInFile([
+            '{{WorkbenchSeederNamespace}}',
+            '{{ WorkbenchSeederNamespace }}',
+            'Workbench\Database\Seeders',
+        ], [
+            $workbenchSeederNamespacePrefix,
+            $workbenchSeederNamespacePrefix,
+            $workbenchSeederNamespacePrefix,
+        ], join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php'));
+
         if ($filesystem->exists(join_paths($workingPath, 'database', 'factories', 'UserFactory.php'))) {
             $filesystem->replaceInFile([
                 'use Orchestra\Testbench\Factories\UserFactory;',
             ], [
-                'use Workbench\Database\Factories\UserFactory;',
+                \sprintf('use %sUserFactory;', Workbench::detectNamespace('database/factories') ?? 'Workbench\Database\Factories\\'),
             ], join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php'));
         }
     }
