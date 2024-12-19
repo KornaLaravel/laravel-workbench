@@ -254,7 +254,7 @@ class DevToolCommand extends Command
             $content['autoload-dev']['psr-4'] = [];
         }
 
-        if ($this->components->confirm('Prefix with `Workbench` namespace?', default: false) === false) {
+        if ($this->components->confirm('Prefix with `Workbench` namespace?', default: true) === false) {
             $this->workbenchNamespacePrefix = '';
         }
 
