@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/workbench`.
 
+## 7.15.2
+
+Released: 2024-12-19
+
+### Fixes
+
+* Fix generated namespace via `workbench:install`.
+
 ## 7.15.1
 
 Released: 2024-12-18
