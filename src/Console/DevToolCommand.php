@@ -41,8 +41,8 @@ class DevToolCommand extends Command
 
         event(new InstallStarted($this->input, $this->output, $this->components));
 
-        $this->prepareWorkbenchDirectories($filesystem, $workingPath);
         $this->prepareWorkbenchNamespaces($filesystem, $workingPath);
+        $this->prepareWorkbenchDirectories($filesystem, $workingPath);
 
         if ($this->option('install') === true && $this->option('skip-install') === false) {
             $this->call('workbench:install', [
@@ -112,6 +112,8 @@ class DevToolCommand extends Command
             ->handle(fn (array $content) => $this->appendScriptsToComposer(
                 $this->appendAutoloadDevToComposer($content, $filesystem), $filesystem
             ));
+
+        Workbench::flushCachedClassAndNamespaces();
     }
 
     /**
@@ -138,11 +140,23 @@ class DevToolCommand extends Command
             join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php')
         );
 
+        $workbenchSeederNamespacePrefix = rtrim(Workbench::detectNamespace('database/seeders') ?? 'Workbench\Database\Seeders\\', '\\');
+
+        $this->replaceInFile($filesystem, [
+            '{{WorkbenchSeederNamespace}}',
+            '{{ WorkbenchSeederNamespace }}',
+            'Workbench\Database\Seeders',
+        ], [
+            $workbenchSeederNamespacePrefix,
+            $workbenchSeederNamespacePrefix,
+            $workbenchSeederNamespacePrefix,
+        ], join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php'));
+
         if ($filesystem->isFile(join_paths($workingPath, 'database', 'factories', 'UserFactory.php'))) {
             $this->replaceInFile($filesystem, [
                 'use Orchestra\Testbench\Factories\UserFactory;',
             ], [
-                'use Workbench\Database\Factories\UserFactory;',
+                \sprintf('use %sUserFactory;', Workbench::detectNamespace('database/factories') ?? 'Workbench\Database\Factories\\'),
             ], join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php'));
         }
     }
