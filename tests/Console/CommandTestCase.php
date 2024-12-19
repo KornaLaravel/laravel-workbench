@@ -81,7 +81,7 @@ abstract class CommandTestCase extends \Orchestra\Testbench\TestCase
             \sprintf('use %sFactories\UserFactory;', $prefix ? 'Workbench\Database\\' : 'Database\\'),
             'class DatabaseSeeder extends Seeder',
             '// UserFactory::new()->times(10)->create();',
-            '// UserFactory::new()->create([',
+            'UserFactory::new()->create([',
         ], join_paths($workingPath, 'workbench', 'database', 'seeders', 'DatabaseSeeder.php'));
     }
 
