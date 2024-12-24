@@ -19,8 +19,6 @@ class ReplaceNamespaces
 
     /**
      * Handle the action.
-     *
-     * @param  string  $filename
      */
     public function handle(string $filename): void
     {
