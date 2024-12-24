@@ -131,7 +131,7 @@ class DevToolCommand extends Command implements PromptsForMissingInput
             '--force' => (bool) $this->option('force'),
         ]);
 
-        StubRegistrar::replaceInFile($filesystem, join_paths($workingPath, 'app', 'Providers', 'WorkbenchServiceProvider.php'));
+        StubRegistrar::replaceInFile($filesystem, join_paths($workingPath, 'app', 'Models', 'User.php'));
 
         $this->callSilently('make:user-factory', [
             '--preset' => 'workbench',
