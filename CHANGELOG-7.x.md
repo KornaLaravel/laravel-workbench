@@ -6,13 +6,22 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 Released: 2024-12-24
 
+### Added
+
+* Add `Orchestra\Workbench\Actions\ReplaceNamespaces` action class.
+* Utilise `@no-named-arguments` PHP docblock.
+
 ### Changes
 
-* Allow to send options to `Orchestra\Workbench\Recipes\Command`.
+* Update `testbench.yaml` stub file.
 
 ## 7.16.0
 
 Released: 2024-12-24
+
+### Added
+
+* Add `Orchestra\Workbench\StubRegistrar::replaceInFile()` method.
 
 ### Changes
 
