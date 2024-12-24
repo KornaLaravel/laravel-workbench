@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/workbench`.
 
+## 7.17.0
+
+Released: 2024-12-24
+
+### Added
+
+* Add `Orchestra\Workbench\Actions\ReplaceNamespaces` action class.
+* Utilise `@no-named-arguments` PHP docblock.
+
+### Changes
+
+* Update `testbench.yaml` stub file.
+
 ## 7.16.0
 
 Released: 2024-12-24
