@@ -55,8 +55,10 @@ abstract class CommandTestCase extends \Orchestra\Testbench\TestCase
     {
         $workingPath = static::stubWorkingPath();
 
+        $this->assertDirectoryExists(join_paths($workingPath, 'workbench', 'app'));
         $this->assertDirectoryExists(join_paths($workingPath, 'workbench', 'app', 'Models'));
         $this->assertDirectoryExists(join_paths($workingPath, 'workbench', 'app', 'Providers'));
+        $this->assertDirectoryExists(join_paths($workingPath, 'workbench', 'database'));
         $this->assertDirectoryExists(join_paths($workingPath, 'workbench', 'database', 'factories'));
         $this->assertDirectoryExists(join_paths($workingPath, 'workbench', 'database', 'seeders'));
 
@@ -93,7 +95,11 @@ abstract class CommandTestCase extends \Orchestra\Testbench\TestCase
         $workingPath = static::stubWorkingPath();
 
         $this->assertDirectoryDoesNotExist(join_paths($workingPath, 'workbench', 'app'));
+        $this->assertDirectoryDoesNotExist(join_paths($workingPath, 'workbench', 'app', 'Models'));
+        $this->assertDirectoryDoesNotExist(join_paths($workingPath, 'workbench', 'app', 'Providers'));
         $this->assertDirectoryDoesNotExist(join_paths($workingPath, 'workbench', 'database'));
+        $this->assertDirectoryDoesNotExist(join_paths($workingPath, 'workbench', 'database', 'factories'));
+        $this->assertDirectoryDoesNotExist(join_paths($workingPath, 'workbench', 'database', 'seeders'));
     }
 
     /**
