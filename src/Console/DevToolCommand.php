@@ -14,6 +14,7 @@ use Orchestra\Workbench\Actions\DumpComposerAutoloads;
 use Orchestra\Workbench\Actions\ModifyComposer;
 use Orchestra\Workbench\Events\InstallEnded;
 use Orchestra\Workbench\Events\InstallStarted;
+use Orchestra\Workbench\StubRegistrar;
 use Orchestra\Workbench\Workbench;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -90,6 +91,8 @@ class DevToolCommand extends Command implements PromptsForMissingInput
             '--force' => (bool) $this->option('force'),
         ]);
 
+        StubRegistrar::replaceInFile($filesystem, join_paths($workbenchWorkingPath, 'Providers', 'WorkbenchServiceProvider.php'));
+
         $this->prepareWorkbenchDatabaseSchema($filesystem, $workbenchWorkingPath);
 
         if ($this->option('basic') === false) {
@@ -129,10 +132,14 @@ class DevToolCommand extends Command implements PromptsForMissingInput
             '--force' => (bool) $this->option('force'),
         ]);
 
+        StubRegistrar::replaceInFile($filesystem, join_paths($workingPath, 'app', 'Providers', 'WorkbenchServiceProvider.php'));
+
         $this->callSilently('make:user-factory', [
             '--preset' => 'workbench',
             '--force' => (bool) $this->option('force'),
         ]);
+
+        StubRegistrar::replaceInFile($filesystem, join_paths($workingPath, 'database', 'factories', 'UserFactory.php'));
 
         (new GeneratesFile(
             filesystem: $filesystem,
@@ -143,25 +150,7 @@ class DevToolCommand extends Command implements PromptsForMissingInput
             join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php')
         );
 
-        $workbenchSeederNamespacePrefix = rtrim(Workbench::detectNamespace('database/seeders') ?? 'Workbench\Database\Seeders\\', '\\');
-
-        $filesystem->replaceInFile([
-            '{{WorkbenchSeederNamespace}}',
-            '{{ WorkbenchSeederNamespace }}',
-            'Workbench\Database\Seeders',
-        ], [
-            $workbenchSeederNamespacePrefix,
-            $workbenchSeederNamespacePrefix,
-            $workbenchSeederNamespacePrefix,
-        ], join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php'));
-
-        if ($filesystem->exists(join_paths($workingPath, 'database', 'factories', 'UserFactory.php'))) {
-            $filesystem->replaceInFile([
-                'use Orchestra\Testbench\Factories\UserFactory;',
-            ], [
-                \sprintf('use %sUserFactory;', Workbench::detectNamespace('database/factories') ?? 'Workbench\Database\Factories\\'),
-            ], join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php'));
-        }
+        StubRegistrar::replaceInFile($filesystem, join_paths($workingPath, 'database', 'seeders', 'DatabaseSeeder.php'));
     }
 
     /**
