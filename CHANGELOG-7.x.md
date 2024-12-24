@@ -2,13 +2,17 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/workbench`.
 
-## 7.16.0
+## 7.17.0
 
 Released: 2024-12-24
 
-### Added
+### Changes
 
-* Add `Orchestra\Workbench\StubRegistrar::replaceInFile()` method.
+* Allow to send options to `Orchestra\Workbench\Recipes\Command`.
+
+## 7.16.0
+
+Released: 2024-12-24
 
 ### Changes
 
