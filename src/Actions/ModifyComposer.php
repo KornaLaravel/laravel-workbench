@@ -4,6 +4,9 @@ namespace Orchestra\Workbench\Actions;
 
 use RuntimeException;
 
+/**
+ * @api
+ */
 class ModifyComposer
 {
     /**

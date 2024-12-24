@@ -5,6 +5,9 @@ namespace Orchestra\Workbench\Actions;
 use Illuminate\Filesystem\Filesystem;
 use Orchestra\Workbench\Workbench;
 
+/**
+ * @api
+ */
 class ReplaceNamespaces
 {
     /**
