@@ -246,7 +246,7 @@ class DevToolCommand extends Command implements PromptsForMissingInput
             $content['autoload-dev']['psr-4'] = [];
         }
 
-        if (confirm('Prefix with `Workbench` namespace?', default: false) === false) {
+        if (confirm('Prefix with `Workbench` namespace?', default: true) === false) {
             $this->workbenchNamespacePrefix = '';
         }
 
