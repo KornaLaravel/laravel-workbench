@@ -23,6 +23,8 @@ class Workbench extends \Orchestra\Testbench\Workbench\Workbench
      * Get the path to the application (Laravel) folder.
      *
      * @no-named-arguments
+     *
+     * @param  array<int, mixed>|string  ...$path
      */
     public static function applicationPath(array|string $path = ''): string
     {
@@ -36,6 +38,8 @@ class Workbench extends \Orchestra\Testbench\Workbench\Workbench
      *
      * @no-named-arguments
      *
+     * @param  array<int, mixed>|string  ...$path
+     *
      * @see \Orchestra\Workbench\Workbench::applicationPath()
      */
     public static function laravelPath(array|string $path = ''): string
@@ -47,12 +51,15 @@ class Workbench extends \Orchestra\Testbench\Workbench\Workbench
      * Get the path to the package folder.
      *
      * @no-named-arguments
+     *
+     * @param  array<int, mixed>|string  ...$path
      */
     public static function packagePath(array|string $path = ''): string
     {
-        return package_path(
-            ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)
-        );
+        /** @var array<int, mixed> $path */
+        $path = Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path);
+
+        return package_path(...$path);
     }
 
     /**
@@ -62,9 +69,10 @@ class Workbench extends \Orchestra\Testbench\Workbench\Workbench
      */
     public static function path(array|string $path = ''): string
     {
-        return workbench_path(
-            ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)
-        );
+        /** @var array<int, mixed> $path */
+        $path = Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path);
+
+        return workbench_path(...$path);
     }
 
     /**
