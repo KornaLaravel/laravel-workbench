@@ -28,9 +28,10 @@ class Workbench extends \Orchestra\Testbench\Workbench\Workbench
      */
     public static function applicationPath(array|string $path = ''): string
     {
-        return base_path(
-            join_paths(...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path))
-        );
+        /** @var array<int, mixed> $path */
+        $path = Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path);
+
+        return base_path(join_paths(...$path));
     }
 
     /**
