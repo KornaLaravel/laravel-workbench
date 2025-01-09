@@ -50,9 +50,10 @@ class Workbench extends \Orchestra\Testbench\Workbench\Workbench
      */
     public static function packagePath(array|string $path = ''): string
     {
-        return package_path(
-            ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)
-        );
+        $path = Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path);
+
+        /** @phpstan-ignore argument.named */
+        return package_path(...$path);
     }
 
     /**
@@ -62,9 +63,10 @@ class Workbench extends \Orchestra\Testbench\Workbench\Workbench
      */
     public static function path(array|string $path = ''): string
     {
-        return workbench_path(
-            ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)
-        );
+        $path = Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path);
+
+        /** @phpstan-ignore argument.named */
+        return workbench_path(...$path);
     }
 
     /**
