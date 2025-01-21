@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Orchestra\Workbench\Http\Controllers\Controller;
-use Workbench\App\Models\User;
 
 class NewPasswordController extends Controller
 {

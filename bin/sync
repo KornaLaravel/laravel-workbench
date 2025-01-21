@@ -89,6 +89,7 @@ transform([
 
 transform([
     line('function (User $user) use ($request) {', 3) => line('function ($user) use ($request) {', 3),
+    line('use Workbench\App\Models\User;') => '',
 ], static fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Http/Controllers/Auth/NewPasswordController.php"));
 
 transform([
