@@ -39,6 +39,8 @@ class Workbench extends \Orchestra\Testbench\Workbench\Workbench
      *
      * @no-named-arguments
      *
+     * @param  array<int, mixed>|string  ...$path
+     *
      * @see \Orchestra\Workbench\Workbench::applicationPath()
      */
     public static function laravelPath(array|string $path = ''): string
