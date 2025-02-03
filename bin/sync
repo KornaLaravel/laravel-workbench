@@ -54,13 +54,13 @@ transform([
     'User::factory()->create' => 'UserFactory::new()->create',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Console/stubs/database/seeders/DatabaseSeeder.php"));
 
-transform([
-    line('Artisan::command(\'inspire\', function () {
-    $this->comment(Inspiring::quote());
-})->purpose(\'Display an inspiring quote\');') => line('// Artisan::command(\'inspire\', function () {
+// transform([
+//     line('Artisan::command(\'inspire\', function () {
 //     $this->comment(Inspiring::quote());
-// })->purpose(\'Display an inspiring quote\');'),
-], static fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Console/stubs/routes/console.php"));
+// })->purpose(\'Display an inspiring quote\');') => line('// Artisan::command(\'inspire\', function () {
+// //     $this->comment(Inspiring::quote());
+// // })->purpose(\'Display an inspiring quote\');'),
+// ], static fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Console/stubs/routes/console.php"));
 
 collect([
     'Http/Controllers/ProfileController.php',
